@@ -10,6 +10,9 @@ python train.py --cfg cfg/yolov3-logos-big.cfg --data logo_data/dataset/logo.dat
 If you have any memory problems, you can add the option "--batch-size N" where N is by default 16.
 The training takes roughly 20 epochs (about 15 minutes on gpu).
 If running on CPU i suggest adding "--device cpu" to the command, but it takes much longer to train.
+Alternatively, you can use a Google Colab instance at
+https://colab.research.google.com/drive/18j0THvYC60jc2LRGX_XoYKWPtuyKlB-w
+(remember to select GPU at Runtime>Change Runtime Type before running the code)
 
 The cfg/yolov3-logos-big.cfg file is a configuration file for the model, modified for this task following the instructions on https://github.com/ultralytics/yolov3/wiki/Train-Custom-Data on step 5.
 
