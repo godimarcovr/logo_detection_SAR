@@ -1,0 +1,25 @@
+DATASET CREATION
+In the logo_data/ folder there is a script named create_dataset.py
+The purpose of this script is to take the logo images contained in the logo_data/logo_images folder (in this case only the wurth.png logo) and paste them in random positions on background images contained in the logo_data/bg_images folder, after rotating and scaling them randomly.
+The script creates a logo_data/dataset folder containing everything needed to train a yolov3 model (training and validation set, with images and annotations). Also, the mp4 file contained in the logo_data/test_video folder is taken and each frame is extracted and saved as test set.
+
+TRAINING
+In the project root folder there is the train.py script downloaded from the original github repository.
+Training can be started with the command
+python train.py --cfg cfg/yolov3-logos-big.cfg --data logo_data/dataset/logo.data --img-size 832
+If you have any memory problems, you can add the option "--batch-size N" where N is by default 16.
+The training takes roughly 20 epochs (about 15 minutes on gpu).
+If running on CPU i suggest adding "--device cpu" to the command, but it takes much longer to train.
+
+The cfg/yolov3-logos-big.cfg file is a configuration file for the model, modified for this task following the instructions on https://github.com/ultralytics/yolov3/wiki/Train-Custom-Data on step 5.
+
+
+The latest epoch of the model is saved in weights/last.pt and can be used to do inference.
+To run the model on the validation set
+python detect.py --source logo_data/dataset/images/val/ --output logo_data/output/ --cfg cfg/yolov3-logos-big.cfg  --weights weights/last.pt --data logo_data/dataset/logo.data
+
+To run it on the test set:
+python detect.py --source logo_data/dataset/images/test/ --output logo_data/output/ --cfg cfg/yolov3-logos-big.cfg  --weights weights/last.pt --data logo_data/dataset/logo.data --img-size 1248
+
+The result is images within the logo_data/output/ folder.
+If you want the video output, you can run the logo_data/make_video.py script which takes all of the images in the logo_data/output/ folder and joins them in the logo_data/output.mp4 video.
